@@ -20,10 +20,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProveedorServiceImpl implements ProveedorService {
-    private ProveedorRepository proveedorRepository;
-    private ProveedorMapper proveedorMapper;
-    private TipoProveedorRepository tipoProveedorRepository;
-    private TipoProveedorMapper tipoProveedorMapper;
+    private final ProveedorRepository proveedorRepository;
+    private final ProveedorMapper proveedorMapper;
+    private final TipoProveedorRepository tipoProveedorRepository;
+    private final TipoProveedorMapper tipoProveedorMapper;
 
     @Override
     public ProveedorDTO create(ProveedorDTO proveedorDTO) throws ServiceException {

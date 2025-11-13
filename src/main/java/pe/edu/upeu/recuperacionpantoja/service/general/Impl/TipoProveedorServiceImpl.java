@@ -12,18 +12,15 @@ import pe.edu.upeu.recuperacionpantoja.repository.TipoProveedorRepository;
 import pe.edu.upeu.recuperacionpantoja.service.general.Service.TipoProveedorService;
 
 import java.util.List;
+
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor  // ✅ Genera constructor automáticamente
 public class TipoProveedorServiceImpl implements TipoProveedorService {
-    private TipoProveedorRepository tipoProveedorRepository;
-    private TipoProveedorMapper tipoProveedorMapper;
 
-    public TipoProveedorServiceImpl(TipoProveedorRepository tipoProveedorRepository, TipoProveedorMapper tipoProveedorMapper) {
-        this.tipoProveedorRepository = tipoProveedorRepository;
-        this.tipoProveedorMapper = tipoProveedorMapper;
-    }
-
+    // ✅ DEBEN SER FINAL para que @RequiredArgsConstructor funcione
+    private final TipoProveedorRepository tipoProveedorRepository;
+    private final TipoProveedorMapper tipoProveedorMapper;
     @Override
     public TipoProveedorDTO create(TipoProveedorDTO tipoProveedorDTO) throws ServiceException {
         try {
@@ -57,13 +54,13 @@ public class TipoProveedorServiceImpl implements TipoProveedorService {
             tipoProveedor.setDesTipopro(tipoProveedorDTO.getDesTipopro());
             TipoProveedor tipoProveedorActualizada = tipoProveedorRepository.save(tipoProveedor);
             return tipoProveedorMapper.toDTO(tipoProveedorActualizada);
-
         } catch (ResourceNotFoundException e) {
             throw e;
         } catch (Exception e) {
             throw new ServiceException("Error al actualizar el tipoProveedor con id " + aLong, e);
         }
     }
+
     @Override
     public void delete(Long aLong) throws ServiceException {
         try {
@@ -71,7 +68,6 @@ public class TipoProveedorServiceImpl implements TipoProveedorService {
                 throw new ResourceNotFoundException("TipoProveedor con id " + aLong + " no encontrada");
             }
             tipoProveedorRepository.deleteById(aLong);
-
         } catch (ResourceNotFoundException e) {
             throw e;
         } catch (Exception e) {
@@ -85,6 +81,7 @@ public class TipoProveedorServiceImpl implements TipoProveedorService {
             List<TipoProveedor> tipoProveedor = tipoProveedorRepository.findAll();
             return tipoProveedorMapper.toDTOList(tipoProveedor);
         } catch (Exception e) {
+            log.error("Error al listar todas los tipoProveedor", e);  // ✅ Agregado log
             throw new ServiceException("Error al listar todas los tipoProveedor", e);
         }
     }

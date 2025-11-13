@@ -13,6 +13,6 @@ public class ProveedorDTO {
     private String contacto;
     private String telefono;
     private String estado;
-    private Long tipoProveedorId;
-    private String tipoProveedorrucPro;
+    private Long tipoProveedorId;              // ✅ ID del tipo
+    private String tipoProveedorNombre;
 }

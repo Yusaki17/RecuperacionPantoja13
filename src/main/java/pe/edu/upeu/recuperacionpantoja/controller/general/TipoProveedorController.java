@@ -1,7 +1,6 @@
 package pe.edu.upeu.recuperacionpantoja.controller.general;
 
 import lombok.RequiredArgsConstructor;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,37 +9,38 @@ import pe.edu.upeu.recuperacionpantoja.service.general.Service.TipoProveedorServ
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor // ← Genera constructor con campos FINAL
 @RestController
 @RequestMapping("/api/v1/tipoproveedor")
 @CrossOrigin(origins = "http://localhost:4200")
 public class TipoProveedorController {
-    private TipoProveedorService tipoproveedorService;
+
+    // 👇 ¡DEBE SER FINAL para que Lombok lo incluya en el constructor!
+    private final TipoProveedorService tipoproveedorService;
 
     @GetMapping
-    public ResponseEntity<List<TipoProveedorDTO>> listAll() throws ServiceException {
+    public ResponseEntity<List<TipoProveedorDTO>> listAll() {
         return ResponseEntity.ok(tipoproveedorService.listAll());
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<TipoProveedorDTO> read(@PathVariable Long id) throws ServiceException {
-        TipoProveedorDTO dto = tipoproveedorService.read(id);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<TipoProveedorDTO> read(@PathVariable Long id) {
+        return ResponseEntity.ok(tipoproveedorService.read(id));
     }
+
     @PostMapping
-    public ResponseEntity<TipoProveedorDTO> create(@RequestBody TipoProveedorDTO tipoproveedorDTO) throws ServiceException {
-        TipoProveedorDTO created = tipoproveedorService.create(tipoproveedorDTO);
-        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    public ResponseEntity<TipoProveedorDTO> create(@RequestBody TipoProveedorDTO tipoproveedorDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(tipoproveedorService.create(tipoproveedorDTO));
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<TipoProveedorDTO> update(@PathVariable Long id, @RequestBody TipoProveedorDTO tipoproveedorDTO) throws ServiceException {
-        TipoProveedorDTO updated = tipoproveedorService.update(id, tipoproveedorDTO);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<TipoProveedorDTO> update(@PathVariable Long id, @RequestBody TipoProveedorDTO tipoproveedorDTO) {
+        return ResponseEntity.ok(tipoproveedorService.update(id, tipoproveedorDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) throws ServiceException {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         tipoproveedorService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

@@ -11,11 +11,12 @@ import java.util.List;
 public interface ProveedorMapper {
 
     @Mapping(source = "tipoProveedor.id", target = "tipoProveedorId")
-    @Mapping(target = "tipoProveedorrucPro", ignore = true)
+    @Mapping(source = "tipoProveedor.desTipopro", target = "tipoProveedorNombre") // ✅ Mapear el nombre
     ProveedorDTO toDto(Proveedor proveedor);
 
     @Mapping(source = "tipoProveedorId", target = "tipoProveedor.id")
+    @Mapping(target = "tipoProveedor.desTipopro", ignore = true) // ✅ Ignorar en la conversión inversa
     Proveedor toEntity(ProveedorDTO proveedorDTO);
 
-    List<ProveedorDTO> toDto(List<Proveedor> proveedores);  // ✅ Sobrecarga del método toDto
+    List<ProveedorDTO> toDto(List<Proveedor> proveedores);
 }
