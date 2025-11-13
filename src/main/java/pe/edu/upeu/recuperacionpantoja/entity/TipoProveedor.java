@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "TBL_TIPO_PROVEEDORES")
 @Getter
@@ -19,4 +21,7 @@ public class TipoProveedor {
     @NotBlank(message = "DES_TIPOPRO no debe estar vacío")
     @Column(name = "DES_TIPOPRO", nullable = false) // ✅ Nombre explícito
     private String desTipopro;
+
+    @OneToMany(mappedBy = "tipoProveedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Proveedor> proveedor;
 }
